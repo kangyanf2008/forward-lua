@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="forward-lua" default="dist" basedir=".">
+    <description>
+        run pic-server
+    </description>
+    <!-- set global properties for this build -->
+    <property name="openresty-home" location="D:\kyf\tool\openresty-1.21.4.1-win64"/>
+    <property name="conf" location="${basedir}/conf"/>
+    <property name="src" location="${basedir}/src"/>
+    <property name="target-conf" location="${openresty-home}/conf"/>
+    <property name="target-src" location="${openresty-home}/${ant.project.name}"/>
+
+    <echo>######开发版本的ant配置#####</echo>
+    <target name="clean" depends="">
+        <echo>清理openresty目录 ${dist}下的conf,logs,janus,januslib</echo>
+        <delete dir="${target-conf}"/>
+        <delete dir="${target-src}"/>
+        <delete>
+            <fileset dir="${openresty-home}/logs" includes="*.log">
+            </fileset>
+        </delete>
+    </target>
+
+    <target name="init" depends="clean">
+        <echo>创建安装目录</echo>
+        <mkdir dir="${target-conf}"/>
+        <mkdir dir="${target-src}"/>
+    </target>
+
+    <target name="dist" depends="init" description="generate the distribution" >
+        <echo>复制安装文件</echo>
+        <copy todir="${target-conf}">
+            <fileset dir="${conf}"></fileset>
+        </copy>
+        <copy todir="${target-src}">
+            <fileset dir="${src}"></fileset>
+        </copy>
+    </target>
+
+</project>
